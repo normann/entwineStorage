@@ -29,6 +29,7 @@ JSOTRAGE_TEST = {
 	},
 	reDraw: function(){
 		var row, del, indx=$.jStorage.index(), valuetd;
+		console.log(indx);
 		$("tr.rida").remove();
 		for(var i=0; i<indx.length; i++){
 			row = $("<tr>").attr("class", "rida");
