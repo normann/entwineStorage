@@ -91,12 +91,12 @@
 
                 /* userData element needs to be inserted into the DOM! */
                 document.getElementsByTagName('head')[0].appendChild(_storage_elm);
-
-                _storage_elm.load("jStorage");
+               
                 var data = "{}";
                 try{
+					 _storage_elm.load("jStorage");
                     data = _storage_elm.getAttribute("jStorage");
-                }catch(E5){}
+                }catch(E5){/*alert("E5: "+e.description);*/}
                 _storage_service.jStorage = data;
                 _backend = "userDataBehavior";
             }else{
@@ -132,7 +132,7 @@
                 _storage_elm.save("jStorage");
             }
             _storage_size = _storage_service.jStorage?String(_storage_service.jStorage).length:0;
-        }catch(E7){/* probably cache is full, nothing is saved this way*/}
+        }catch(E7){/*alert('E7: '+E7.description);/* probably cache is full, nothing is saved this way*/}
     }
 
     function _checkKey(key){
@@ -297,11 +297,11 @@
                 /* userData element needs to be inserted into the DOM! */
                 document.getElementsByTagName('head')[0].appendChild(_storage_elm);
 
-                _storage_elm.load("jStorage");
                 data = "{}";
                 try{
+					_storage_elm.load("jStorage");
                     data = _storage_elm.getAttribute("jStorage");
-                }catch(E5){}
+                }catch(E5){/*alert('E5: '+E5.description);*/}
                 _storage_service.jStorage = data;
                 _backend = "userDataBehavior";
             }
