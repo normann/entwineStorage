@@ -1,5 +1,4 @@
 (function($){
-	console.log($);
     if(!$ || !($.toJSON || Object.toJSON || window.JSON)){
         throw new Error("jQuery, MooTools or Prototype needs to be loaded before jStorage!");
     }
@@ -50,8 +49,6 @@
                 return this.isXML(resultXML)?resultXML:false;
             }
         };
-		console.log(json_encode);
-		console.log(json_decode);
     function _init(){
         var localStorageReallyWorks = false;
         if("localStorage" in window){
