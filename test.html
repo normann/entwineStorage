@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jStorage - simple JavaScript plugin to store data locally</title>
+		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		
+		<style type="text/css">
+			body{font-family: Sans-serif;font-size: 13px;color: #333;}
+			table{border-left: 1px solid #CDEB8B;border-top: 1px solid #CDEB8B;}
+			h1{padding-top: 50px;font-size: 26px;font-weight: bold; border-bottom: 3px solid #CDEB8B;}
+			td{padding: 3px;border-right: 1px solid #CDEB8B;border-bottom: 1px solid #CDEB8B;}
+			thead{background: #006E2E;color: white;}
+			.container{width: 700px;margin: 10px auto;}
+		</style>
+		
+		<script src="jquery.js"></script>
+		<script src="jquery.json.2.3.js"></script>
+		<script>$$ = {}</script>
+		<script src="jstorage.js"></script>
+		<script src="application.js"></script>
+	</head>
+	<body>
+	
+	<div class="container">
+	
+	<h1>jStorage - store data locally with JavaScript</h1>
+
+	<p><strong><a href="http://www.jstorage.info">jStorage</a></strong> is a simple wrapper plugin for Prototype, MooTools and jQuery to cache data on browser side.</p>
+	
+	<p>Add some values and refresh the page - if your browser supports storing local data, then the values should survive the page refresh.</p>
+	
+	<table cellspacing="0" cellpadding="0" style="width: 100%">
+	<thead>
+		<tr>
+		  <td width="120">KEY</td>
+		  <td>VALUE</td>
+		  <td>TTL (ms)</td>
+		  <td width="50">&nbsp;</td>
+		 </tr>
+	</thead>
+	<tbody id="tulemused"></tbody>
+	<tfoot>
+		<tr>
+			<td><input type="text" id="key" name="key" value="" style="width: 110px;" /></td>
+			<td><input type="text" id="val" name="val" value="" style="width: 98%" /></td>
+			<td width="100"><input type="text" id="ttl" name="ttl" value="" style="width: 100px" /></td>
+			<td><a href="javascript:JSOTRAGE_TEST.insert_value()">ADD</a></td>
+		</tr>
+		<tr>
+			<td><input type="text" id="key2" name="key2" value="" style="width: 110px;" /></td>
+			<td colspan="2">Clicking "GET" alerts the value for provided key with the method <em>$.jStorage.get(key)</em></td>
+			<td><a href="javascript:JSOTRAGE_TEST.get_value()">GET</a></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td colspan="2">Clear all saved data</td>
+			<td><a href="javascript:JSOTRAGE_TEST.flush_values()">FLUSH</a></td>
+		</tr>
+		<tr>
+            <td>&nbsp;</td>
+            <td colspan="2">Refresh to clear expired keys</td>
+            <td><a href="javascript:JSOTRAGE_TEST.reDraw()">REFRESH</a></td>
+        </tr>
+	</tfoot>
+	</table>
+	
+	<p>&copy; 2010 Andris Reinman, <a href="mailto:andris.reinman@gmail.com">andris.reinman@gmail.com</a><br /><a href="http://www.jstorage.info">jStorage</a> is licensed under <a href="http://www.jstorage.info/static/license.txt">MIT-styled license</a>, so basically you can do whatever you want to do with it.</p>
+
+	<script>
+		// Fill the table with previously saved data
+		JSOTRAGE_TEST.reDraw();
+	</script>
+
+	</body>
+</html>
