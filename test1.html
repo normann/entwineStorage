@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #store {
+                behavior:url('#default#userData');
+                display:none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="store"></div>
+        <h1>IE userData behavior test
+        <script>
+            var storageElement = document.getElementById("store");
+            storageElement.setAttribute('monkey', 'fez');
+            try {
+                storageElement.save('storagetest');
+                alert('Saved some data with the storage Element!'); // IE 7,8,9
+            } catch(e) {
+				document.write(e.description);
+                alert("Failed to save data with the storage Element."); // IE on WP7
+            }
+        </script>
+    </body>
+</html>
