@@ -8,11 +8,14 @@
         _storage_service = {jStorage:"{}"},
         _storage_elm = null,
         _storage_size = 0,
-        json_encode = $.toJSON,
+        /* function to encode objects to JSON strings */
+        json_encode = $.toJSON || Object.toJSON || (window.JSON && (JSON.encode || JSON.stringify)),
+
+        /* function to decode objects from JSON strings */
         json_decode = $.evalJSON || (window.JSON && (JSON.decode || JSON.parse)) || function(str){
             return String(str).evalJSON();
         },
-        _backend = false,
+		_backend = false,
         _ttl_timeout,
 
         _XMLService = {

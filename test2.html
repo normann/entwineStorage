@@ -2,13 +2,19 @@
 <html>
 	<head>
 		<title>jStorage - simple JavaScript plugin to store data locally</title>
-		<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		
 		<script src="jquery.js"></script>
-		<script src="jquery.cookie.js"></script>
+		<script src="jquery.json.2.3.js"></script>
 		<script src="jstorage.js"></script>
 		<script>
-			alert('here');
+			var value = $.jStorage.get('key');
+			if(!value){
+				$.jStorage.set('key', 'value');
+				alert('dynamic');
+			}else{
+				alert('cached');
+			}
 		</script>
 		
 	</head>
