@@ -364,7 +364,6 @@
 					var serialized = $('form').serializeArray();
 					$.EntwinedStorage.set(form_id, json_encode(serialized));
 					if($.entwine.StorageTTL){
-						alert($.entwine.StorageTTL);
 						$.EntwinedStorage.setTTL(form_id, $.entwine.StorageTTL);
 					}
 					$.entwine.ALREADY_SAVED = true;
@@ -372,7 +371,6 @@
 			}else{
 				$.EntwinedStorage.set(form_id, $(this).stringify());
 				if($.entwine.StorageTTL){
-					alert('here');
 					$.EntwinedStorage.setTTL(form_id, $.entwine.StorageTTL);
 				}
 			}
@@ -396,8 +394,6 @@
 					for(var i=0; i<keys.length; i++){
 						var key = keys[i];
 						$('form').find("[name='"+key+"']").val(key_values[key]);
-						console.log($('form').find("[name='"+key+"']"));
-						console.log(key_values[key]);
 					}
 					var form_id = $(this).makeUniqueKey();
 					if(form_id == 'jQuqeryEntwineStorageGlobal'){
