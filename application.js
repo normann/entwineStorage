@@ -9,9 +9,9 @@ JSOTRAGE_TEST = {
 			$('#key').focus();
 			return;
 		}
-		$.jStorage.set(key, val);
+		$.EntwinedStorage.set(key, val);
 		if(ttl>0){
-		    $.jStorage.setTTL(key, ttl);
+		    $.EntwinedStorage.setTTL(key, ttl);
 		}
 		$('#key').val("");
 		$('#val').val("");
@@ -19,21 +19,21 @@ JSOTRAGE_TEST = {
 		this.reDraw();
 	},
 	get_value: function(){
-		var value = $.jStorage.get($("#key2").val());
+		var value = $.EntwinedStorage.get($("#key2").val());
 		alert(value);
 		$('#key2').val("");
 	},
 	flush_values: function(){
-		$.jStorage.flush();
+		$.EntwinedStorage.flush();
 		this.reDraw();
 	},
 	reDraw: function(){
-		var row, del, indx=$.jStorage.index(), valuetd;
+		var row, del, indx=$.EntwinedStorage.index(), valuetd;
 		$("tr.rida").remove();
 		for(var i=0; i<indx.length; i++){
 			row = $("<tr>").attr("class", "rida");
 			row.append($("<td>").html(indx[i]));
-			valuetd = $("<td>").html($.jStorage.get(indx[i]));
+			valuetd = $("<td>").html($.EntwinedStorage.get(indx[i]));
 			valuetd.attr("colspan",2);
 			valuetd.colspan = 2;
 			row.append(valuetd);
@@ -42,7 +42,7 @@ JSOTRAGE_TEST = {
 			$("#tulemused").append(row);
 			del.click(function(e){
 				var keyofthis = $(this).parents('tr').children('td').first().html();
-				$.jStorage.deleteKey(keyofthis);
+				$.EntwinedStorage.deleteKey(keyofthis);
 				JSOTRAGE_TEST.reDraw();
 			});
 		}

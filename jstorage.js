@@ -1,7 +1,7 @@
 (function($){
 	
     if(!$ || !($.toJSON || Object.toJSON || window.JSON) || !$.entwine){
-       	alert("jQuery, jQueryJson2 plugin and jQuery.entwine plugin needs to be loaded before jStorage!");
+       	alert("jQuery, jQueryJson2 plugin and jQuery.entwine plugin needs to be loaded before EntwineStorage!");
 		return;
     }else{
 		
@@ -11,8 +11,9 @@
 
         /* function to decode objects from JSON strings */
         json_decode = $.evalJSON || (window.JSON && (JSON.decode || JSON.parse)),
+
         _storage = {},
-        _storage_service = {jStorage:"{}"},
+        _storage_service = {EntwineStorage:"{}"},
         _storage_elm = null,
         _storage_size = 0,
 		_backend = false,
@@ -95,10 +96,10 @@
                
 	                var data = "{}";
 	                try{
-						 _storage_elm.load("jStorage");
-	                    data = _storage_elm.getAttribute("jStorage");
+						 _storage_elm.load("EntwineStorage");
+	                    data = _storage_elm.getAttribute("EntwineStorage");
 	                }catch(E5){/*alert("E5: "+e.description);*/}
-	                _storage_service.jStorage = data;
+	                _storage_service.EntwineStorage = data;
 	                _backend = "userDataBehavior";
 	            }else{
 	                _storage_elm = null;
@@ -113,26 +114,26 @@
 	    }
 
 	    function _load_storage(){
-	        /* if jStorage string is retrieved, then decode it */
-	        if(_storage_service.jStorage){
+	        /* if EntwineStorage string is retrieved, then decode it */
+	        if(_storage_service.EntwineStorage){
 	            try{
-	                _storage = json_decode(String(_storage_service.jStorage));
-	            }catch(E6){_storage_service.jStorage = "{}";}
+	                _storage = json_decode(String(_storage_service.EntwineStorage));
+	            }catch(E6){_storage_service.EntwineStorage = "{}";}
 	        }else{
-	            _storage_service.jStorage = "{}";
+	            _storage_service.EntwineStorage = "{}";
 	        }
-	        _storage_size = _storage_service.jStorage?String(_storage_service.jStorage).length:0;
+	        _storage_size = _storage_service.EntwineStorage?String(_storage_service.EntwineStorage).length:0;
 	    }
 
 	    function _save(){
 	        try{
-	            _storage_service.jStorage = json_encode(_storage);
+	            _storage_service.EntwineStorage = json_encode(_storage);
 	            // If userData is used as the storage engine, additional
 	            if(_storage_elm) {
-	                _storage_elm.setAttribute("jStorage",_storage_service.jStorage);
-	                _storage_elm.save("jStorage");
+	                _storage_elm.setAttribute("EntwineStorage",_storage_service.EntwineStorage);
+	                _storage_elm.save("EntwineStorage");
 	            }
-	            _storage_size = _storage_service.jStorage?String(_storage_service.jStorage).length:0;
+	            _storage_size = _storage_service.EntwineStorage?String(_storage_service.EntwineStorage).length:0;
 	        }catch(E7){/*alert('E7: '+E7.description);/* probably cache is full, nothing is saved this way*/}
 	    }
 
@@ -140,7 +141,7 @@
 	        if(!key || (typeof key != "string" && typeof key != "number")){
 	            throw new TypeError('Key name must be string or numeric');
 	        }
-	        if(key == "__jstorage_meta"){
+	        if(key == "__entstorage_meta"){
 	            throw new TypeError('Reserved key name');
 	        }
 	        return true;
@@ -151,13 +152,13 @@
 
 	        clearTimeout(_ttl_timeout);
 
-	        if(!_storage.__jstorage_meta || typeof _storage.__jstorage_meta.TTL != "object"){
+	        if(!_storage.__entstorage_meta || typeof _storage.__entstorage_meta.TTL != "object"){
 	            // nothing to do here
 	            return;
 	        }
 
 	        curtime = +new Date();
-	        TTL = _storage.__jstorage_meta.TTL;
+	        TTL = _storage.__entstorage_meta.TTL;
 	        for(i in TTL){
 	            if(TTL.hasOwnProperty(i)){
 	                if(TTL[i] <= curtime){
@@ -183,7 +184,7 @@
 
 	    ////////////////////////// PUBLIC INTERFACE /////////////////////////
 
-	    $.jStorage = {
+	    $.EntwinedStorage = {
 	        /* Version number */
 	        version: "0.1.6.1",
 
@@ -219,10 +220,10 @@
 	            if(key in _storage){
 	                delete _storage[key];
 	                // remove from TTL list
-	                if(_storage.__jstorage_meta &&
-	                  typeof _storage.__jstorage_meta.TTL == "object" &&
-	                  key in _storage.__jstorage_meta.TTL){
-	                    delete _storage.__jstorage_meta.TTL[key];
+	                if(_storage.__entstorage_meta &&
+	                  typeof _storage.__entstorage_meta.TTL == "object" &&
+	                  key in _storage.__entstorage_meta.TTL){
+	                    delete _storage.__entstorage_meta.TTL[key];
 	                }
 	                _save();
 	                return true;
@@ -235,18 +236,18 @@
 	            ttl = Number(ttl) || 0;
 	            if(key in _storage){
 
-	                if(!_storage.__jstorage_meta){
-	                    _storage.__jstorage_meta = {};
+	                if(!_storage.__entstorage_meta){
+	                    _storage.__entstorage_meta = {};
 	                }
-	                if(!_storage.__jstorage_meta.TTL){
-	                    _storage.__jstorage_meta.TTL = {};
+	                if(!_storage.__entstorage_meta.TTL){
+	                    _storage.__entstorage_meta.TTL = {};
 	                }
 
 	                // Set TTL value for the key
 	                if(ttl>0){
-	                    _storage.__jstorage_meta.TTL[key] = curtime + ttl;
+	                    _storage.__entstorage_meta.TTL[key] = curtime + ttl;
 	                }else{
-	                    delete _storage.__jstorage_meta.TTL[key];
+	                    delete _storage.__entstorage_meta.TTL[key];
 	                }
 
 	                _save();
@@ -269,7 +270,7 @@
 	        index: function(){
 	            var index = [], i;
 	            for(i in _storage){
-	                if(_storage.hasOwnProperty(i) && i != "__jstorage_meta"){
+	                if(_storage.hasOwnProperty(i) && i != "__entstorage_meta"){
 	                    index.push(i);
 	                }
 	            }
@@ -300,37 +301,30 @@
 
 	                data = "{}";
 	                try{
-						_storage_elm.load("jStorage");
-	                    data = _storage_elm.getAttribute("jStorage");
+						_storage_elm.load("EntwineStorage");
+	                    data = _storage_elm.getAttribute("EntwineStorage");
 	                }catch(E5){/*alert('E5: '+E5.description);*/}
-	                _storage_service.jStorage = data;
+	                _storage_service.EntwineStorage = data;
 	                _backend = "userDataBehavior";
 	            }
 
 	            _load_storage();
-	        }
+	        },
+			init:function(){
+				
+			    // Initialize EntwineStorage
+				_init();
+			}
 	    };
-
-	    // Initialize jStorage
-	    _init();
 	}
 	
-	$(window).unload(function(){
-		$('form').save();
-	});
-	
-	
-	var ALREADY_SAVED = false; // only used when the page contain multiple forms which need to save, but there is no form id specified 
-	var ALREADY_RESTORED = false;
+	$.entwine.ALREADY_SAVED = false; // only used when the page contain multiple forms which need to save, but there is no form id specified 
+	$.entwine.ALREADY_RESTORED = false;
+	$.entwine.StorageTTL = null;
 	$('form').entwine({
-//		savedone: false, 
-
-		onmatch: function(){
-			this._super();
-			this.restore();
-			this.flush();
+		setStorageTTL: function(ttl){
+			$.entwine.StorageTTL = Number(ttl);
 		},
-		
 		stringify: function(){
 			return json_encode($(this).serializeArray());
 		},
@@ -366,66 +360,69 @@
 		save: function(){
 			var form_id = $(this).makeUniqueKey();
 			if(form_id == 'jQuqeryEntwineStorageGlobal'){
-				if(!ALREADY_SAVED ){
+				if(!$.entwine.ALREADY_SAVED ){
 					var serialized = $('form').serializeArray();
-					$.jStorage.set(form_id, json_encode(serialized));
-					ALREADY_SAVED = true;
+					$.EntwinedStorage.set(form_id, json_encode(serialized));
+					if($.entwine.StorageTTL){
+						alert($.entwine.StorageTTL);
+						$.EntwinedStorage.setTTL(form_id, $.entwine.StorageTTL);
+					}
+					$.entwine.ALREADY_SAVED = true;
 				}
 			}else{
-				$.jStorage.set(form_id, $(this).stringify());
+				$.EntwinedStorage.set(form_id, $(this).stringify());
+				if($.entwine.StorageTTL){
+					alert('here');
+					$.EntwinedStorage.setTTL(form_id, $.entwine.StorageTTL);
+				}
 			}
 		},
 		
 		restore: function(){
-			if(!ALREADY_RESTORED){
+			if(!$.entwine.ALREADY_RESTORED){
 				var fields = $(this).getFields();
 				var keys = [];
 				var key_values = {};
-				for(var i=0; i< fields.length; i++){
-					var fieldname = fields[i].name;
-					var fieldvalue = fields[i].value;
-					if(!key_values[fieldname]){
-						key_values[fieldname] = [];
-						keys.push(fieldname);
+				if(fields){
+					for(var i=0; i< fields.length; i++){
+						var fieldname = fields[i].name;
+						var fieldvalue = fields[i].value;
+						if(!key_values[fieldname]){
+							key_values[fieldname] = [];
+							keys.push(fieldname);
+						}
+						key_values[fieldname].push(fieldvalue);
 					}
-					key_values[fieldname].push(fieldvalue);
+					for(var i=0; i<keys.length; i++){
+						var key = keys[i];
+						$('form').find("[name='"+key+"']").val(key_values[key]);
+						console.log($('form').find("[name='"+key+"']"));
+						console.log(key_values[key]);
+					}
+					var form_id = $(this).makeUniqueKey();
+					if(form_id == 'jQuqeryEntwineStorageGlobal'){
+						$.entwine.ALREADY_RESTORED = true;
+					}
 				}
-				for(var i=0; i<keys.length; i++){
-					var key = keys[i];
-					$('form').find("[name='"+key+"']").val(key_values[key]);
-				}
-				ALREADY_RESTORED = true;
 			}
 		},
 		
 		getFields: function(){
 			var form_id = $(this).makeUniqueKey();
 			if(form_id == 'jQuqeryEntwineStorageGlobal'){
-				return $(this).parse($.jStorage.get(form_id));
+				return $(this).parse($.EntwinedStorage.get(form_id));
 			}else{
-				return $(this).parse($.jStorage.get(form_id));
+				return $(this).parse($.EntwinedStorage.get(form_id));
 			}
 		},
 		
 		flushAll: function(){
-			$.jStorage.flush();
+			$.EntwinedStorage.flush();
 		},
 		
 		flush: function(){
-			var form_id = $(this).attr('id')?$(this).attr('id'):null;
-			if(form_id){
-				$.jStorage.deleteKey(form_id);
-			}else{
-				var serialized = $(this).serializeArray();
-				for(var i=0; i<serialized.length; i++){
-					if(serialized[i].name){
-						$.jStorage.deleteKey(serialized[i].name);
-					}
-				}
-			}
+			var form_id = $(this).makeUniqueKey();
+			$.EntwinedStorage.deleteKey(form_id);
 		}
-	});
-	
-	$(document).ready(function() {
 	});
 }(jQuery));
